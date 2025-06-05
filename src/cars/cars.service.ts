@@ -1,66 +1,21 @@
 import {
-  BadRequestException,
   Injectable,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
-import { Car } from './interfaces/car.interface';
 import { v4 as uuid } from 'uuid';
-import { CreateCarDto } from './dto/create-car.dto';
-import { UpdateCarDto } from './dto/update-car.dto';
+
+import { CreateCarDto, UpdateCarDto } from './dto';
+import { Car } from './interfaces/car.interface';
 
 @Injectable()
 export class CarsService {
   private cars: Car[] = [
-    {
-      id: uuid(),
-      brand: 'Toyota',
-      model: 'Corolla',
-    },
-    {
-      id: uuid(),
-      brand: 'Honda',
-      model: 'Civic',
-    },
-    {
-      id: uuid(),
-      brand: 'Ford',
-      model: 'Mustang',
-    },
-    {
-      id: uuid(),
-      brand: 'Chevrolet',
-      model: 'Camaro',
-    },
-    {
-      id: uuid(),
-      brand: 'BMW',
-      model: 'X5',
-    },
-    {
-      id: uuid(),
-      brand: 'Mercedes-Benz',
-      model: 'C-Class',
-    },
-    {
-      id: uuid(),
-      brand: 'Audi',
-      model: 'A4',
-    },
-    {
-      id: uuid(),
-      brand: 'Hyundai',
-      model: 'Elantra',
-    },
-    {
-      id: uuid(),
-      brand: 'Kia',
-      model: 'Sportage',
-    },
-    {
-      id: uuid(),
-      brand: 'Nissan',
-      model: 'Altima',
-    },
+    // {
+    //     id: uuid(),
+    //     brand: 'Toyota',
+    //     model: 'Corolla'
+    // },
   ];
 
   findAll() {
@@ -74,10 +29,10 @@ export class CarsService {
     return car;
   }
 
-  create(CreateCarDto: CreateCarDto) {
+  create(createCarDto: CreateCarDto) {
     const car: Car = {
       id: uuid(),
-      ...CreateCarDto,
+      ...createCarDto,
     };
 
     this.cars.push(car);
@@ -106,5 +61,9 @@ export class CarsService {
   delete(id: string) {
     const car = this.findOneById(id);
     this.cars = this.cars.filter((car) => car.id !== id);
+  }
+
+  fillCarsWithSeedData(cars: Car[]) {
+    this.cars = cars;
   }
 }
